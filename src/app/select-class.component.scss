@@ -1,0 +1,394 @@
+$zIndex: 99999;
+
+$dark-color-0: #000000;
+$dark-color-1: #313131; //一级
+$dark-color-2: #d3d3d3; //二级
+$dark-color-3: #fcfcfc;
+$dark-color-4: #888888;
+$dark-color-5: #cccccc;
+$dark-color-6: #666666;
+$dark-color-7: #f6f6f6;
+$yellow-color-0: #F7CA18;
+$yellow-color-1: #e1b203; //一级
+$yellow-color-2: #edb625; //一级
+$yellow-color-3: #f39700; //二级
+$yellow-color-4: #FC9153;
+$yellow-color-5: #ff9424;
+
+$red-color-0: #e7505a;
+$red-color-1: #E08283; //一级
+$red-color-2: #e35b5a; //二级
+$red-color-4: #D91E18;
+$red-color-5: #d86464;
+
+$bule-color-0: #108ee9;
+$bule-color-1: #108ee9; //一级
+$bule-color-2: #108ee9; //一级
+$bule-color-3: #108ee9; //二级
+$bule-color-4: #108ee9; //二级
+
+$green-color-0: #26C281;
+$green-color-1: #1BBC9B; //一级
+$green-color-2: #1BA39C; //一级
+$green-color-3: #26C281; //二级
+$green-color-4: #32c5d2; //二级
+$green-color-5: #368691;
+$green-color-6: #1d3032;
+//  按钮
+button {
+  height: 35px;
+  min-width: 50px;
+  border: 1px solid #f9f9f9;
+  &:hover, &:focus, &:active {
+    cursor: pointer;
+  }
+  &:active {
+    cursor: pointer;
+    background: $dark-color-2;
+  }
+  &.btn-link {
+    color: #666666;
+    background: none;
+    text-decoration: underline;
+    border: 0px;
+    font-size: x-small;
+    &:hover {
+      cursor: hand;
+      cursor: pointer;
+      text-decoration: none;
+      color: #20202f;
+    }
+    &:link {
+      text-decoration: none;
+      color: #666666;
+    }
+    &:visited {
+      text-decoration: none;
+      color: #666666;
+    }
+    &:active {
+      text-decoration: none;
+      color: #666666;
+    }
+    &:focus {
+      text-decoration: none;
+      color: #20202f;
+    }
+  }
+}
+
+//  tab组件
+.ngx-tab {
+  border-bottom-color: rgb(217, 217, 217);
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  box-sizing: border-box;
+  color: rgba(0, 0, 0, 0.65);
+  display: block;
+  font-size: 14px;
+  height: 36px;
+  line-height: 21px;
+  margin-bottom: 16px;
+  outline-color: rgba(0, 0, 0, 0.65);
+  outline-style: none;
+  outline-width: 0px;
+  text-rendering: optimizeLegibility;
+  text-size-adjust: 100%;
+  transition-delay: 0s;
+  transition-duration: 0.3s;
+  transition-property: padding;
+  transition-timing-function: cubic-bezier(0.645, 0.045, 0.355, 1);
+  width: 1005.67px;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  > .ngx-tab-nav {
+    border-bottom-color: rgb(217, 217, 217);
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    box-sizing: border-box;
+    color: rgba(0, 0, 0, 0.65);
+    display: block;
+    font-size: 14px;
+    height: 36px;
+    line-height: 21px;
+    margin-bottom: 16px;
+    outline-color: rgba(0, 0, 0, 0.65);
+    outline-style: none;
+    outline-width: 0px;
+    text-rendering: optimizeLegibility;
+    transition-delay: 0s;
+    transition-duration: 0.3s;
+    transition-property: padding;
+    transition-timing-function: cubic-bezier(0.645, 0.045, 0.355, 1);
+    -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    > .ngx-nav-container {
+      box-sizing: border-box;
+      color: rgba(0, 0, 0, 0.65);
+      display: block;
+      font-size: 14px;
+      height: 36px;
+      line-height: 21px;
+      margin-bottom: -1px;
+      margin-left: 0px;
+      margin-right: 0px;
+      margin-top: 0px;
+      overflow-x: hidden;
+      overflow-y: hidden;
+      padding-bottom: 0px;
+      padding-left: 32px;
+      padding-right: 32px;
+      padding-top: 0px;
+      position: relative;
+      text-rendering: optimizeLegibility;
+      transition-delay: 0s;
+      transition-duration: 0.3s;
+      transition-property: padding;
+      transition-timing-function: cubic-bezier(0.645, 0.045, 0.355, 1);
+      width: 1005.67px;
+      zoom: 1;
+      -webkit-font-smoothing: antialiased;
+      -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+      > .ngx-tab-nav-wrap {
+        display: block;
+        overflow: hidden;
+        margin-bottom: -1px;
+        margin: 0;
+        padding: 0;
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+
+        > .ngx-tab-nav-scroll {
+          display: block;
+          overflow: hidden;
+          white-space: nowrap;
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+
+          > .ngx-tab-nav-line {
+            box-sizing: border-box;
+            padding-left: 0;
+            -webkit-transition: -webkit-transform .3s cubic-bezier(.645, .045, .355, 1);
+            transition: -webkit-transform .3s cubic-bezier(.645, .045, .355, 1);
+            transition: transform .3s cubic-bezier(.645, .045, .355, 1);
+            transition: transform .3s cubic-bezier(.645, .045, .355, 1), -webkit-transform .3s cubic-bezier(.645, .045, .355, 1);
+            position: relative;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            display: inline-block;
+            transform: translate3d(0px, 0px, 0px); //  位移
+            -webkit-box-sizing: border-box;
+            > .ngx-tab-label {
+              display: inline-block;
+              height: 100%;
+              margin-right: 24px;
+              -webkit-box-sizing: border-box;
+              box-sizing: border-box;
+              position: relative;
+              padding: 8px 20px;
+              -webkit-transition: color .3s cubic-bezier(.645, .045, .355, 1);
+              transition: color .3s cubic-bezier(.645, .045, .355, 1);
+              cursor: pointer;
+              text-decoration: none;
+              &.active {
+                color: $green-color-1;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+//  ngx-tab
+//  表单样式
+.ngx-select-class-box {
+  > input {
+    position: relative;
+    display: inline-block;
+    padding: 4px 7px;
+    width: 100%;
+    height: 28px;
+    font-size: 12px;
+    line-height: 1.5;
+    color: rgba(0, 0, 0, 0.65);
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    transition: all .3s;
+    cursor: pointer;
+    &.disabled {
+      cursor: not-allowed;
+    }
+    &.readonly {
+      border-style: dashed;
+    }
+    &:hover {
+
+    }
+  }
+}
+
+//  地址选择器弹窗遮罩
+.ngx-select-class-mask {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background-color: rgba(185, 185, 185, 0.1);
+  height: 100%;
+  z-index: 1000;
+  filter: alpha(opacity=50);
+}
+
+.ngx-select-class-wrap {
+  position: fixed;
+  overflow: auto;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: $zIndex;
+  -webkit-overflow-scrolling: touch;
+  outline: 0;
+  padding: 20px 0px;
+  //  弹窗
+  .ngx-select-class-modal {
+    display: flex;
+    display: -webkit-flex; /* Safari */
+    flex-direction: column;
+    overflow: hidden;
+    margin: auto;
+    z-index: $zIndex;
+    transition: 0.3s;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, .175);
+    background: #ffffff;
+    max-width: 61.8vw;
+    @media (max-width: 992px) {
+      & {
+        max-width: 96vw;
+      }
+    }
+    //  主体内容
+    .select-address-top {
+      display: flex;
+      display: -webkit-flex; /* Safari */
+      flex-wrap: wrap;
+    }
+    //  主体内容
+    .select-address-container {
+      display: flex;
+      display: -webkit-flex; /* Safari */
+      flex-wrap: wrap;
+      > ul {
+        list-style: none;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        position: relative;
+        > li {
+          width: 100%;
+          min-height: 80px;
+          padding: 10px;
+          display: block;
+          vertical-align: middle;
+          padding-bottom: 0px;
+          margin-bottom: 40px;
+          span {
+            font-size: 13px;
+            list-style: none;
+            display: inline-block;
+            padding: 4px 6px;
+            cursor: pointer;
+            &.select {
+              color: $green-color-3;
+            }
+            &.now-select {
+              background: $green-color-3;
+              color: #ffffff;
+            }
+          }
+          > .select-bar {
+            position: absolute;
+            text-align: right;
+            padding: 0px 15px;
+            bottom: 0px;
+            left: 0px;
+            width: 100%;
+            height: 35px;
+            > .btn-link {
+            }
+          }
+        }
+      }
+    }
+    //  -end select-address-container
+    .select-address-footer {
+      display: flex;
+      display: -webkit-flex; /* Safari */
+      flex-wrap: wrap;
+      justify-content: space-between;
+      border-top: 1px solid #eee;
+      padding: 10px 15px;
+      overflow: hidden;
+      > .select-msg {
+        display: flex;
+        display: -webkit-flex; /* Safari */
+        // flex-direction: column;
+        flex-wrap: wrap;
+        flex-grow: 1;
+        > .data {
+          border-left: 3px solid $green-color-2;
+          border-bottom: 2px solid $green-color-3;
+          padding-left: 10px;
+          margin-right: 15px;
+          margin-bottom: 4px;
+          i{
+            font-size: 22px;
+            margin-left: 6px;
+            color: $red-color-1;
+            &:hover {
+              cursor: pointer;
+            };
+          }
+        }
+        > .msg {
+          color: $red-color-2;
+          border-top: 1px solid $red-color-1;
+        }
+      }
+      > .select-bar {
+        display: flex;
+        display: -webkit-flex; /* Safari */
+        // flex-direction: column;
+        flex-wrap: wrap;
+        align-content: center;
+
+        .btn-clear {
+          background: #ffffff;
+          border-color: $green-color-1;
+        }
+        .btn-ok {
+          background: $green-color-2;
+          border-color: $green-color-1;
+          color: #ffffff;
+        }
+      }
+    }
+
+    .select-address-footer input {
+      min-width: 50%;
+    }
+    .msg-line {
+      text-align: right;
+      margin-top: 4px;
+      color: red;
+      height: 43px;
+    }
+  }
+}
+
