@@ -30,6 +30,7 @@ export class SelectClass extends FormControlBase<Array<any>> {
   idKey: string;
   nameKey: string;
   asyncGrade: boolean;
+  isAllIn: boolean;
   /**
    * 选择模式
    * treeRadio:树形结构最后一级单选
@@ -44,6 +45,7 @@ export class SelectClass extends FormControlBase<Array<any>> {
               treeDataList: Array<any> = null,
               requestDataList: (data: any, index: number) => Observable<any> = null,
               asyncGrade: boolean = false,
+              isAllIn: boolean = false,
               mode: string = 'TreeRadio',
               idKey: string = 'id',
               nameKey: string = 'name') {
@@ -61,7 +63,7 @@ export class SelectClass extends FormControlBase<Array<any>> {
       this.observer = observer;
     });*/
   }
-  onOpen(result) {
+  modalOnOpen(result) {
     window.console.info('SelectClass onOpen', result);
     /*self.observer.next({
       type: 'onOpen',
@@ -69,7 +71,7 @@ export class SelectClass extends FormControlBase<Array<any>> {
       value: self.value
     });*/
   }
-  onClosed(result) {
+  modalOnClosed(result) {
     window.console.info('SelectClass onClosed', result);
     /*self.observer.next({
       type: 'onClosed',
@@ -77,7 +79,7 @@ export class SelectClass extends FormControlBase<Array<any>> {
       value: self.value
     });*/
   }
-  onValueChange(value) {
+  valueOnChange(value) {
     window.console.info('SelectClass onValueChange', value);
   }
 

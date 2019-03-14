@@ -5,6 +5,9 @@ export class FieldBaseOptions {
   dataList?: Array<any>;
   callback?: any;
 }
+/**
+ * 表单控件基础类
+ */
 export class FormControlBase<T> {
   value: Array<any> | any ;
   private keys: string;

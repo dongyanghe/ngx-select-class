@@ -3,6 +3,9 @@ import {
   SelectClass, SelectClassMode, Class
 } from './ngx-select-class/entity';
 
+import {
+  Observable, Observer
+} from 'rxjs';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -10,6 +13,8 @@ import {
 })
 export class AppComponent {
   title = 'ngx-select-class';
+  selectAddressList: [];
+  cityData: [];
   selectClass: SelectClass = new SelectClass('地区', undefined, 'cityList', null, true, false,
           undefined, undefined, 'TreeRadio', undefined, [
             {
@@ -32,5 +37,22 @@ export class AppComponent {
               nameKey: 'name',
               dataList: null
             }
-          ], [], undefined, undefined, 'TreeRadio', 'code');
+          ], [], (data: any, index: number): Observable<any> => {
+            if (!data || !data.id) {
+              data = { id: 0 };
+            }
+            const observable: Observable<any> = Observable.create(observer => {
+              const returnObservable = () => {
+                observer.next(
+                  []
+                );
+              };
+              if (!this.cityData || !this.cityData.length) {
+                returnObservable();
+              } else {
+                returnObservable();
+              }
+            });
+            return observable;
+          }, undefined, undefined, 'TreeRadio', 'code');
 }
