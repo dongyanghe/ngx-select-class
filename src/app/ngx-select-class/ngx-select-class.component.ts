@@ -40,16 +40,9 @@ import {
   HttpClient
 } from '@angular/common/http';
 
-export enum SelectClassMode {
-  TreeRadio = 'TreeRadio',
-    TreeMulti = 'TreeMulti',
-    LevelRadio = 'LevelRadio',
-    LevelMulti = 'LevelMulti'
-}
-export class Class {
-  name: string;
-  dataList: Array < any > ;
-}
+import {
+  SelectClassMode, Class
+} from './entity';
 @Component({
   selector: 'app-ngx-select-class',
   templateUrl: './ngx-select-class.component.html',
