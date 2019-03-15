@@ -2,12 +2,18 @@ import {FormControlBase, FieldBaseOptions} from './FormControlBase';
 import {
   Observable, Observer
 } from 'rxjs';
+/**
+ * 选择模式
+ */
 export enum SelectClassMode {
   TreeRadio = 'TreeRadio',
     TreeMulti = 'TreeMulti',
     LevelRadio = 'LevelRadio',
     LevelMulti = 'LevelMulti'
 }
+/**
+ * 层级
+ */
 export class Class {
   name: string;
   dataList: Array < any > ;
