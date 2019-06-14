@@ -151,6 +151,9 @@ implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
    * 已选列表的语义化显示
    */
   private _selectName: string;
+  /**
+   * 当前展示层级
+   */
   private _showClassIndex = 0;
 
   /**
@@ -550,8 +553,9 @@ implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
         const changedProp = changes[propName];
         switch (propName) {
           case 'treeDataList':
-            //  如果没有requestDataList则代表是外部传入待选数据
+            //  如果没有requestDataList则代表是treeDataList传入待选数据
             if (!self.requestDataList) {
+              //  为第一层数据赋值
               self.classList[0].dataList = self.treeDataList;
             }
             break;
@@ -679,8 +683,9 @@ implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
     switch (self.mode) {
       case SelectClassMode.TreeRadio:
       case SelectClassMode.TreeMulti:
+      debugger
         self._selectName = '';
-        if (self.selectList.length == 1) {
+        if (self.selectList.length === 1) {
           const selectData = self.selectList[0];
           //  从treeClassDataList向selectList同步全选状态
           const treeData = this.getTreeClassDataForAll(

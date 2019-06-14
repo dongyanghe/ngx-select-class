@@ -14,7 +14,9 @@
             <div class="ngx-tab-nav-wrap">
               <div class="ngx-tab-nav-scroll">
                 <div class="ngx-tab-nav-line">
-                  <div class="ngx-tab-label" *ngFor="let class of classList;let classIndex = index;" [ngClass]="{'active': showClassIndex == classIndex}" (click)="showClassIndex = classIndex;">
+                  <div class="ngx-tab-label" *ngFor="let class of classList;let classIndex = index;"
+                  [ngClass]="{'active': showClassIndex == classIndex}" 
+                  (click)="showClassIndex = classIndex;">
                       {{class.name}}
                   </div>
                 </div>
@@ -46,9 +48,9 @@
                   <button *ngIf="showClassIndex && (showClassIndex - 1)" (click)="showClassIndex = 0;" class="btn-link">顶级</button>
                   <button *ngIf="showClassIndex" (click)="showClassIndex = showClassIndex - 1;" class="btn-link">上一级</button>
                   <button *ngIf="this.mode === this.SelectClassMode.TreeMulti || this.mode === this.SelectClassMode.TreeMulti"
-                    (click)="onParentSelectAll( classIndex, true);" class="btn-link">清空</button>
+                    (click)="onParentSelectAll(classIndex, true);" class="btn-link">清空</button>
                   <button *ngIf="this.mode === this.SelectClassMode.TreeMulti || this.mode === this.SelectClassMode.TreeMulti"
-                   (click)="onParentSelectAll( classIndex, false);" class="btn-link">全选</button>
+                   (click)="onParentSelectAll(classIndex, false);" class="btn-link">全选</button>
               </div>
             </li>
           </ng-container>

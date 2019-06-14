@@ -34,6 +34,9 @@ $green-color-3: #26C281; //二级
 $green-color-4: #32c5d2; //二级
 $green-color-5: #368691;
 $green-color-6: #1d3032;
+* {
+  box-sizing: border-box;
+}
 //  按钮
 button {
   height: 35px;

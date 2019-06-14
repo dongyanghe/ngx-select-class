@@ -18,7 +18,7 @@ import {
 })
 export class AppComponent {
   title = 'ngx-select-class';
-  hebieData = [{
+  levelList = [{
     city: '石家庄',
     cityCode: '0311',
     code: '冀A',
@@ -74,18 +74,61 @@ export class AppComponent {
     code: '冀S',
     province: '河北'
   }];
-  selectAddressList: [];
+  treeList = [
+    {
+      id: 1,
+      name: '11111111',
+      children: [
+        {
+          id: 21,
+          name: '211111111',
+          children: [
+            {
+              id: 31,
+              name: '31111111111',
+            },
+            {
+              id: 32,
+              name: '32222222222',
+            }
+          ]
+        }
+      ]
+    },
+    {
+      id: 22,
+      name: '222222222',
+      children: [
+        {
+          id: 211111111,
+          name: '2111111111',
+          children: [
+            {
+              id: 3111111111,
+              name: '311111111111111',
+            },
+            {
+              id: 32,
+              name: '32222222222222',
+            }
+          ]
+        }
+      ]
+    }
+  ];
+  levelSelectList: [];
+  treeSelectList: [];
   cityData: [];
-  selectClass: SelectClass = new SelectClass('河北城市车牌匹配', undefined, 'cityList', null, true, false,
+  levelRadio: SelectClass = new SelectClass('同级单选', undefined, 'levelSelectList', null, true, false,
     undefined, undefined, '河北城市车牌匹配', undefined, [{
         name: '河北车牌',
         nameKey: 'code',
-        dataList: this.hebieData
+        dataList: this.levelList
       },
       {
         name: '河北城市',
         nameKey: 'city',
-        dataList: this.hebieData
+        dataList: this.levelList
       },
       {
         name: '河北编码',
@@ -103,7 +146,7 @@ export class AppComponent {
       const observable: Observable < any > = Observable.create(observer => {
         const returnObservable = () => {
           observer.next(
-            this.hebieData
+            this.levelList
           );
         };
         if (!this.cityData || !this.cityData.length) {
@@ -115,4 +158,42 @@ export class AppComponent {
       return observable;
     },
      undefined, undefined, 'LevelRadio', 'cityCode', 'city');
+     treeMulti: SelectClass = new SelectClass('树形多选', undefined, 'treeSelectList', null, true, false,
+    undefined, undefined, '河北城市车牌匹配', undefined, [{
+        name: '一级',
+        nameKey: 'id',
+        dataList: this.levelList
+      },
+      {
+        name: '二级',
+        nameKey: 'id',
+        dataList: this.levelList
+      },
+      {
+        name: '三级',
+        nameKey: 'id',
+        dataList: null
+      }
+    ],
+    this.treeList,
+    (data: any, index: number): Observable < any > => {
+      if (!data || !data.id) {
+        data = {
+          id: 0
+        };
+      }
+      const observable: Observable < any > = Observable.create(observer => {
+        const returnObservable = () => {
+          observer.next(
+            this.treeList
+          );
+        };
+        if (!this.treeSelectList || !this.treeSelectList.length) {
+          returnObservable();
+        } else {
+          returnObservable();
+        }
+      });
+      return observable;
+    }, false, undefined, 'TreeMulti');
 }
