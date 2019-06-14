@@ -8,7 +8,7 @@ $dark-color-4: #888888;
 $dark-color-5: #cccccc;
 $dark-color-6: #666666;
 $dark-color-7: #f6f6f6;
-$yellow-color-0: #F7CA18;
+$yellow-color-0: #f8c713;
 $yellow-color-1: #e1b203; //一级
 $yellow-color-2: #edb625; //一级
 $yellow-color-3: #f39700; //二级
@@ -21,7 +21,7 @@ $red-color-2: #e35b5a; //二级
 $red-color-4: #D91E18;
 $red-color-5: #d86464;
 
-$bule-color-0: #108ee9;
+$bule-color-0: #2bbcf8;
 $bule-color-1: #108ee9; //一级
 $bule-color-2: #108ee9; //一级
 $bule-color-3: #108ee9; //二级
@@ -34,6 +34,9 @@ $green-color-3: #26C281; //二级
 $green-color-4: #32c5d2; //二级
 $green-color-5: #368691;
 $green-color-6: #1d3032;
+* {
+  box-sizing: border-box;
+}
 //  按钮
 button {
   height: 35px;
@@ -44,7 +47,7 @@ button {
   }
   &:active {
     cursor: pointer;
-    background: $dark-color-2;
+    background: $bule-color-0;
   }
   &.btn-link {
     color: #666666;
@@ -52,24 +55,29 @@ button {
     text-decoration: underline;
     border: 0px;
     font-size: x-small;
+    /* 鼠标指针移动到链接上 */
     &:hover {
       cursor: hand;
       cursor: pointer;
       text-decoration: none;
       color: #20202f;
     }
+    /* 未被访问的链接 */
     &:link {
-      text-decoration: none;
+      text-decoration: underline;
       color: #666666;
     }
+    /* 已被访问的链接 */
     &:visited {
-      text-decoration: none;
+      text-decoration: underline;
       color: #666666;
     }
+    /* 正在被点击的链接 */
     &:active {
       text-decoration: none;
       color: #666666;
     }
+    /* 聚焦的链接 */
     &:focus {
       text-decoration: none;
       color: #20202f;
@@ -98,7 +106,7 @@ button {
   transition-duration: 0.3s;
   transition-property: padding;
   transition-timing-function: cubic-bezier(0.645, 0.045, 0.355, 1);
-  width: 1005.67px;
+  width: 100%;
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   > .ngx-tab-nav {
@@ -192,7 +200,7 @@ button {
               cursor: pointer;
               text-decoration: none;
               &.active {
-                color: $green-color-1;
+                color: $bule-color-0;
               }
             }
           }
@@ -284,6 +292,17 @@ button {
       display: flex;
       display: -webkit-flex; /* Safari */
       flex-wrap: wrap;
+      .select {
+        input[type=checkbox] {
+          // &:disabled{
+
+          // }
+          &:hover {
+            cursor: hand;
+            cursor: pointer;
+          }
+        }
+      }
       > ul {
         list-style: none;
         width: 100%;
@@ -298,18 +317,23 @@ button {
           vertical-align: middle;
           padding-bottom: 0px;
           margin-bottom: 40px;
-          span {
+          > div {
             font-size: 13px;
             list-style: none;
             display: inline-block;
             padding: 4px 6px;
             cursor: pointer;
-            &.select {
-              color: $green-color-3;
+            input{
+              color: $bule-color-0;
             }
-            &.now-select {
-              background: $green-color-3;
-              color: #ffffff;
+            span {
+              &.select {
+                color: $bule-color-0;
+              }
+              &.now-select {
+                background: $bule-color-0;
+                color: #ffffff;
+              }
             }
           }
           > .select-bar {
@@ -333,7 +357,7 @@ button {
       flex-wrap: wrap;
       justify-content: space-between;
       border-top: 1px solid #eee;
-      padding: 10px 15px;
+      padding: 0px 15px 10px 15px;
       overflow: hidden;
       > .select-msg {
         display: flex;
@@ -341,19 +365,40 @@ button {
         // flex-direction: column;
         flex-wrap: wrap;
         flex-grow: 1;
-        > .data {
-          border-left: 3px solid $green-color-2;
-          border-bottom: 2px solid $green-color-3;
+        > .select-msg-bar{
+          text-align: right;
+          padding: 0px 15px;
+          bottom: 0px;
+          left: 0px;
+          width: 100%;
+          height: 35px;
+        }
+        > .data-msg{
+          max-height: 30vh;
+          overflow-y: auto;
           padding-left: 10px;
-          margin-right: 15px;
-          margin-bottom: 4px;
-          i{
-            font-size: 22px;
-            margin-left: 6px;
-            color: $red-color-1;
-            &:hover {
-              cursor: pointer;
-            };
+          min-height: 35px;
+          line-height: 16px;
+          width: 100%;
+          overflow-x: hidden;
+          padding: 10px 10px;
+          > .data-bar {
+            border-left: 3px solid $bule-color-1;
+            border-bottom: 2px solid $bule-color-0;
+            padding-left: 10px;
+            margin-right: 15px;
+            margin-bottom: 4px;
+            min-height: 35px;
+            line-height: 16px;
+            display: inline;
+            i{
+              font-size: 22px;
+              margin-left: 6px;
+              color: $red-color-1;
+              &:hover {
+                cursor: pointer;
+              };
+            }
           }
         }
         > .msg {
@@ -362,19 +407,20 @@ button {
         }
       }
       > .select-bar {
-        display: flex;
-        display: -webkit-flex; /* Safari */
+        // display: flex;
+        // display: -webkit-flex; /* Safari */
         // flex-direction: column;
-        flex-wrap: wrap;
-        align-content: center;
-
+        // flex-wrap: wrap;
+        // align-content: center;
+        width: 100%;
+        text-align: right;
         .btn-clear {
           background: #ffffff;
-          border-color: $green-color-1;
+          border-color: $bule-color-0;
         }
         .btn-ok {
-          background: $green-color-2;
-          border-color: $green-color-1;
+          background: $bule-color-0;
+          border-color: $bule-color-0;
           color: #ffffff;
         }
       }
