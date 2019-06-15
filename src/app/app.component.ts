@@ -1,5 +1,5 @@
 import {
-  Component
+  Component, OnInit
 } from '@angular/core';
 import {
   SelectClass,
@@ -11,111 +11,16 @@ import {
   Observable,
   Observer
 } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'ngx-select-class';
-  levelList = [{
-    city: '石家庄',
-    cityCode: '0311',
-    code: '冀A',
-    province: '河北'
-  }, {
-    city: '唐山',
-    cityCode: '0315',
-    code: '冀B',
-    province: '河北'
-  }, {
-    city: '秦皇岛',
-    cityCode: '0335',
-    code: '冀C',
-    province: '河北'
-  }, {
-    city: '邯郸',
-    cityCode: '0310',
-    code: '冀D',
-    province: '河北'
-  }, {
-    city: '邢台',
-    cityCode: '0319',
-    code: '冀E',
-    province: '河北'
-  }, {
-    city: '保定',
-    cityCode: '0312',
-    code: '冀F',
-    province: '河北'
-  }, {
-    city: '张家口',
-    cityCode: '0313',
-    code: '冀G',
-    province: '河北'
-  }, {
-    city: '承德',
-    cityCode: '0314',
-    code: '冀H',
-    province: '河北'
-  }, {
-    city: '沧州',
-    cityCode: '0317',
-    code: '冀J',
-    province: '河北'
-  }, {
-    city: '廊坊',
-    cityCode: '0316',
-    code: '冀R',
-    province: '河北'
-  }, {
-    city: '沧州',
-    cityCode: '0317',
-    code: '冀S',
-    province: '河北'
-  }];
-  treeList = [
-    {
-      id: 1,
-      name: '11111111',
-      children: [
-        {
-          id: 21,
-          name: '211111111',
-          children: [
-            {
-              id: 31,
-              name: '31111111111',
-            },
-            {
-              id: 32,
-              name: '32222222222',
-            }
-          ]
-        }
-      ]
-    },
-    {
-      id: 22,
-      name: '222222222',
-      children: [
-        {
-          id: 211111111,
-          name: '2111111111',
-          children: [
-            {
-              id: 3111111111,
-              name: '311111111111111',
-            },
-            {
-              id: 32,
-              name: '32222222222222',
-            }
-          ]
-        }
-      ]
-    }
-  ];
+  levelList = [];
+  treeList = [];
   levelSelectList: [];
   treeSelectList: [];
   cityData: [];
@@ -158,7 +63,7 @@ export class AppComponent {
       return observable;
     },
      undefined, undefined, 'LevelRadio', 'cityCode', 'city');
-     treeMulti: SelectClass = new SelectClass('树形多选', undefined, 'treeSelectList', null, true, false,
+  treeMulti: SelectClass = new SelectClass('树形多选', undefined, 'treeSelectList', null, true, false,
     undefined, undefined, '河北城市车牌匹配', undefined, [{
         name: '一级',
         nameKey: 'id',
@@ -196,4 +101,47 @@ export class AppComponent {
       });
       return observable;
     }, false, undefined, 'TreeMulti');
+    hostUrl = 'https://easy-mock.com/mock/5ceb854a1851d623fe0bcb4d';
+  /**
+   * 在第一轮 ngOnChanges 完成之后调用。
+   * ( 译注：也就是说当每个输入属性的值都被触发了一次 ngOnChanges 之后才会调用 ngOnInit ，
+   * 此时所有输入属性都已经有了正确的初始绑定值 )
+   */
+  ngOnInit() {
+
+  }
+
+  constructor(private httpClient: HttpClient) {
+    this.initData();
+  }
+
+  /**
+   * 请求返回异常处理
+   */
+  handleError(res) {
+    console.log(res);
+  }
+
+  /**
+   * 初始化数据
+   */
+  initData() {
+    this.httpClient.get(`${this.hostUrl}/eikesi/levelList`)
+    .toPromise()
+    .then((res: any) => {
+      console.log(res);
+      this.levelList = res.data || [];
+      this.levelRadio.treeDataList = res.data || [];
+     })
+    .catch(res => this.handleError(res));
+    this.httpClient.get(`${this.hostUrl}/eikesi/treeList`)
+    .toPromise()
+    .then((res: any) => {
+      console.log(res);
+      debugger
+      this.treeList = res.data || [];
+      this.treeMulti.treeDataList = res.data || [];
+     })
+    .catch(res => this.handleError(res));
+  }
 }
