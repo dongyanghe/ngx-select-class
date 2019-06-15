@@ -59,7 +59,7 @@
       <div class="select-address-footer">
         <div class="select-msg">
             <div *ngIf="selectName" class="select-msg-bar">
-                <button  (click)="selectMsgType = !selectMsgType;" class="btn-link">{{selectMsgType? "编辑模式" : "详情"}}</button>
+                <button  (click)="selectMsgType = !selectMsgType;" class="btn-link">{{selectMsgType? "删除" : "详情"}}</button>
             </div>
             <div *ngIf="!selectMsgType" class="data-msg">
                 <div class="data-bar" *ngFor="let selectData of selectList;let selectDataIndex = index;">

@@ -16,7 +16,7 @@ export enum SelectClassMode {
  */
 export class Class {
   name: string;
-  dataList: Array < any > ;
+  dataList: Array <any> ;
 }
 export class SelectClass extends FormControlBase<Array<any>> {
   observable: Observable<any>;

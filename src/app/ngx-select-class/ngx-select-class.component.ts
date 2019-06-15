@@ -683,7 +683,7 @@ implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
     switch (self.mode) {
       case SelectClassMode.TreeRadio:
       case SelectClassMode.TreeMulti:
-      debugger
+      // debugger
         self._selectName = '';
         if (self.selectList.length === 1) {
           const selectData = self.selectList[0];
@@ -1069,7 +1069,7 @@ implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
                 self.selectList = [JSON.parse(JSON.stringify(nowSelect))];
               } else {
                 //  如果是最顶级未被选则直接插入
-                if (treeDataClassIndex == 0) {
+                if (treeDataClassIndex === 0) {
                   self.selectList.push(JSON.parse(JSON.stringify(nowSelect)));
                 } else {
                   //  如果这个元素是某个已选元素的子集得找到它

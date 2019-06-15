@@ -64,43 +64,9 @@ export class AppComponent implements OnInit {
     },
      undefined, undefined, 'LevelRadio', 'cityCode', 'city');
   treeMulti: SelectClass = new SelectClass('树形多选', undefined, 'treeSelectList', null, true, false,
-    undefined, undefined, '河北城市车牌匹配', undefined, [{
-        name: '一级',
-        nameKey: 'id',
-        dataList: this.levelList
-      },
-      {
-        name: '二级',
-        nameKey: 'id',
-        dataList: this.levelList
-      },
-      {
-        name: '三级',
-        nameKey: 'id',
-        dataList: null
-      }
-    ],
+    undefined, undefined, '河北城市车牌匹配', undefined, [],
     this.treeList,
-    (data: any, index: number): Observable < any > => {
-      if (!data || !data.id) {
-        data = {
-          id: 0
-        };
-      }
-      const observable: Observable < any > = Observable.create(observer => {
-        const returnObservable = () => {
-          observer.next(
-            this.treeList
-          );
-        };
-        if (!this.treeSelectList || !this.treeSelectList.length) {
-          returnObservable();
-        } else {
-          returnObservable();
-        }
-      });
-      return observable;
-    }, false, undefined, 'TreeMulti');
+    null, false, undefined, 'TreeMulti');
     hostUrl = 'https://easy-mock.com/mock/5ceb854a1851d623fe0bcb4d';
   /**
    * 在第一轮 ngOnChanges 完成之后调用。
@@ -108,7 +74,7 @@ export class AppComponent implements OnInit {
    * 此时所有输入属性都已经有了正确的初始绑定值 )
    */
   ngOnInit() {
-
+    console.log('ngOnInit');
   }
 
   constructor(private httpClient: HttpClient) {
@@ -140,8 +106,21 @@ export class AppComponent implements OnInit {
       console.log(res);
       debugger
       this.treeList = res.data || [];
+      this.treeMulti.classList = [{
+          name: '一级',
+          dataList: null
+        },
+        {
+          name: '二级',
+          dataList: null
+        },
+        {
+          name: '三级',
+          dataList: null
+        }
+      ];
       this.treeMulti.treeDataList = res.data || [];
-     })
+    })
     .catch(res => this.handleError(res));
   }
 }
