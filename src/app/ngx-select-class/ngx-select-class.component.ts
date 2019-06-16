@@ -388,7 +388,7 @@ implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
                       eachTreeData.children = childOption;
                       if (self.selectList[selectListKey].path.length == index) {
                         this.selectClass.treeDataList = treeDataList;
-                        self.classList[0].dataList = this.selectClass.treeDataList;
+                        this.selectClass.classList[0].dataList = this.selectClass.treeDataList;
                         if (selectListKey == self.selectList.length - 1) {
                           this.isRequestTreeDataListForSelectList = false;
                         }
@@ -408,12 +408,12 @@ implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
           this.isRequestTreeDataListForSelectList = false;
         }
         this.selectClass.treeDataList = treeDataList;
-        self.classList[0].dataList = this.selectClass.treeDataList;
+        this.selectClass.classList[0].dataList = this.selectClass.treeDataList;
       });
     } else {
       this.selectClass.requestDataList({}, 1).subscribe(option => {
         this.selectClass.treeDataList = option;
-        self.classList[0].dataList = this.selectClass.treeDataList;
+        this.selectClass.classList[0].dataList = this.selectClass.treeDataList;
       });
     }
   }
@@ -431,18 +431,18 @@ implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
       if (changes.hasOwnProperty(propName)) {
         const changedProp = changes[propName];
         switch (propName) {
-          case 'treeDataList':
+          case 'selectClass':
             //  如果没有requestDataList则代表是treeDataList传入待选数据
             if (!this.selectClass.requestDataList) {
               //  为第一层数据赋值
-              self.classList[0].dataList = this.selectClass.treeDataList;
+              this.selectClass.classList[0].dataList = this.selectClass.treeDataList;
             }
-            break;
+            // break;
           case 'selectList':
             if (changedProp.currentValue) {
               this.synchroSelectList(changedProp.currentValue);
             }
-            break;
+            // break;
           case 'formGroup':
             if (this.formGroup) {
               const formControl: FormControl = this.formGroup.get(
@@ -454,7 +454,7 @@ implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
                 this.synchroSelectList(value, true);
               });
             }
-            break;
+            // break;
           case 'requestDataList':
             if (!this.selectClass.requestDataList) {
               return;
@@ -507,7 +507,7 @@ implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
       this.elementRef.nativeElement,
       'click',
       (event: any) => {
-        if (this.selectClass.idKey || this.selectClass.disabled) {
+        if (this.selectClass.readonly || this.selectClass.disabled) {
           return;
         }
         window.console.log('SelectClassComponent：' + event);
@@ -719,7 +719,7 @@ implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
    *      如果是requestDataList异步获取数据，当selectStatus设为true时子孙级数据可能未缓存入treeDataList，
    *      因此无法通过判断子孙级是否都选中来确定selectStatus，selectStatus只能外部维护
    */
-  private changeSelectStatus(data ? : any, classIndex ? : number): boolean {
+  private changeSelectStatus(data ?: any, classIndex ?: number): boolean {
     const change = (changeData: any, changeClassIndex: number): boolean => {
       if (
         changeData.selectStatus &&
@@ -917,7 +917,7 @@ implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
         //  path下标是按照classIndex的顺序父级——>子集排列的
         //  如果已选元素path对classIndex应层级id相等就删除
         const value = self.selectList[i];
-        if (value.path[classIndex][this.selectClass.idKey] == data[this.selectClass.idKey]) {
+        if (value.path[classIndex][this.selectClass.idKey] === data[this.selectClass.idKey]) {
           self.selectList.splice(i, 1);
         }
       }
@@ -933,7 +933,7 @@ implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
           //  @wait：是否可以通过标记父级下标来减少循环？
           const checkTreeData = (treeData: any, treeDataClassIndex: number) => {
             //  最后一级没有全选按钮也不需要设置状态为全选
-            if (treeDataClassIndex == self.classList.length - 1) {
+            if (treeDataClassIndex == this.selectClass.classList.length - 1) {
               nowSelect.selectStatus = false;
             }
             //  设置树形结构路径
@@ -1010,7 +1010,7 @@ implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
             //  是异步获取且还有子级且未缓存
             if (
               this.selectClass.asyncGrade &&
-              self.classList[classIndex + 1] &&
+              this.selectClass.classList[classIndex + 1] &&
               !data.children
             ) {
               this.selectClass.requestDataList(data, classIndex + 1).subscribe(option => {
@@ -1039,7 +1039,7 @@ implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
     }
     const self = this;
     //  如果有下一级则显示下一级
-    if (self.classList[classIndex + 1]) {
+    if (this.selectClass.classList[classIndex + 1]) {
       self.showClassIndex = classIndex + 1;
     }
     //  是当前已选中的则不再处理
@@ -1057,13 +1057,13 @@ implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
             };
           }
           //  如果有下一级则获取下一级选择列表
-          if (self.classList[classIndex + 1]) {
-            self.classList[classIndex + 1].dataList = data.children;
+          if (this.selectClass.classList[classIndex + 1]) {
+            this.selectClass.classList[classIndex + 1].dataList = data.children;
             //  滞空之后层级的待选数据
             for (
-              let index = classIndex + 2; index < self.classList.length; index++
+              let index = classIndex + 2; index < this.selectClass.classList.length; index++
             ) {
-              self.classList[index].dataList = [];
+              this.selectClass.classList[index].dataList = [];
             }
             //  删除当前选中之后的已选数据
             self.nowSelect.path.splice(
@@ -1077,9 +1077,9 @@ implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
           //  这里不需要保存子孙级数据
           delete self.nowSelect.path[classIndex].children;
           //  如果是最后一层且不是当前选择过则放入selectList
-          //  (classIndex == (self.classList.length - 1)
-          // || !self.classList[classIndex + 1].dataList
-          // || self.classList[classIndex + 1].dataList.length == 0)
+          //  (classIndex == (this.selectClass.classList.length - 1)
+          // || !this.selectClass.classList[classIndex + 1].dataList
+          // || this.selectClass.classList[classIndex + 1].dataList.length == 0)
           //  && !self.isSelect(data, classIndex))
           //  如果当前点击的元素不是已选择列表selectList内的数据则放入selectList
           if (!self.isSelect(data, classIndex)) {
@@ -1128,7 +1128,7 @@ implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
         //  是异步获取且还有子级且未缓存
         if (
           this.selectClass.asyncGrade &&
-          self.classList[classIndex + 1] &&
+          this.selectClass.classList[classIndex + 1] &&
           !data.children
         ) {
           this.selectClass.requestDataList(data, classIndex + 1).subscribe(option => {

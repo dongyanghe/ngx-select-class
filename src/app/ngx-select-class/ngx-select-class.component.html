@@ -1,7 +1,7 @@
 
 
 <div class="ngx-select-class-box">
-  <input type="text" placeholder="" class="{{class}}" [ngClass]="{'readonly': readonly, 'disabled': disabled}"
+  <input type="text" placeholder="" class="{{class}}" [ngClass]="{'readonly': selectClass.readonly, 'disabled': selectClass.disabled}"
          [(ngModel)]="selectName" style="width: 100%;" title="{{selectName}}" disabled>
 </div>
 <ng-template #selectClassModalTemplate>
