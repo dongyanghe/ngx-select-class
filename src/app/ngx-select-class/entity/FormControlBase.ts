@@ -9,8 +9,8 @@ export class FieldBaseOptions {
  * 表单控件基础类
  */
 export class FormControlBase<T> {
-  value: Array<any> | any ;
-  private keys: string;
+  value: Array<any> | any;
+  private keys: string | Array<string> = '';
   key: string;
   keyList: Array<string>;
   label?: string;
@@ -20,27 +20,16 @@ export class FormControlBase<T> {
   required = false;
   readonly = false;
   disabled = false;
-  title?: string;
-  options?: FieldBaseOptions;
-  minlength?: number;
+  title ?: string;
+  minlength ? = 0;
   maxlength?: number;
-  order?: number;
+  order ?: number;
   validation?: string;
-  constructor(controlType: string, label: string, placeholder: string, keys: string | Array<string>,
-              value: Array<any> | any , options?: FieldBaseOptions, required: boolean = false, readonly: boolean = false,
-              disabled: boolean = false, validation: string = '', minlength?: number, maxlength?: number, title?: string, order?: number) {
+  constructor(controlType: string, label: string, keys: string | Array<string>,
+              value: Array<any> | any) {
     this.label = label;
-    this.placeholder = placeholder || this.label;
     this.value = value;
     this.controlType = controlType;
-    this.required = required;
-    this.readonly = readonly;
-    this.disabled = disabled;
-    this.validation = validation;
-    this.minlength = minlength;
-    this.maxlength = maxlength;
-    this.order = order;
-    this.options = options;
     //  设置本组件formGroup的key和父级的key
     if (typeof keys === 'string') {
       this.keyList = keys.split('.');

@@ -14,7 +14,7 @@
             <div class="ngx-tab-nav-wrap">
               <div class="ngx-tab-nav-scroll">
                 <div class="ngx-tab-nav-line">
-                  <div class="ngx-tab-label" *ngFor="let class of classList;let classIndex = index;"
+                  <div class="ngx-tab-label" *ngFor="let class of selectClass.classList;let classIndex = index;"
                   [ngClass]="{'active': showClassIndex == classIndex}" 
                   (click)="showClassIndex = classIndex;">
                       {{class.name}}
@@ -27,19 +27,20 @@
       </div >
       <div class="select-address-container">
         <ul>
-          <ng-container *ngFor="let class of classList;let classIndex = index;">
+          <ng-container *ngFor="let class of selectClass.classList;let classIndex = index;">
             <li *ngIf="showClassIndex == classIndex">
               <div *ngFor="let data of class.dataList;trackBy: dataListTrackByFn" class="select">
-                  <input *ngIf="this.mode === this.SelectClassMode.TreeMulti && classIndex !== classList.length - 1"
+                  <input *ngIf="selectClass.mode === this.SelectClassMode.TreeMulti && classIndex !== selectClass.classList.length - 1"
                   [(ngModel)] = "data.selectStatus" title="{{data.selectStatus}}"
                     type="checkbox" (click)="onChildenSelectAll(data, classIndex);"
                     [ngClass]="getChildenSelectStatusClass(data, classIndex)" [disabled]="data.isChildenSelectAllIng"
                     title="{{data.selectStatus ? '取消全选' : '全选'}}"/>
                   <span
                         (click)="onSelectClass(data, classIndex);"
-                        title="{{ classIndex == classList.length - 1 ?'单击选中' : '单击进入下一级'}}"
+                        title="{{ classIndex == selectClass.classList.length - 1 ?'单击选中' : '单击进入下一级'}}"
                         [ngClass]="{'select': isSelect(data, classIndex),'now-select': isNowSelect(data, classIndex)}">
-                          {{data[nameKey] }}
+                         <!-- {{data | json}} -->
+                          {{data[selectClass.nameKey] }}
                   </span>
               </div>
               <h5 *ngIf="!class.dataList || !class.dataList.length" class="text-muted text-center">没有数据了</h5>
@@ -47,9 +48,9 @@
               <div class="select-bar">
                   <button *ngIf="showClassIndex && (showClassIndex - 1)" (click)="showClassIndex = 0;" class="btn-link">顶级</button>
                   <button *ngIf="showClassIndex" (click)="showClassIndex = showClassIndex - 1;" class="btn-link">上一级</button>
-                  <button *ngIf="this.mode === this.SelectClassMode.TreeMulti || this.mode === this.SelectClassMode.TreeMulti"
+                  <button *ngIf="selectClass.mode === this.SelectClassMode.TreeMulti || selectClass.mode === this.SelectClassMode.TreeMulti"
                     (click)="onParentSelectAll(classIndex, true);" class="btn-link">清空</button>
-                  <button *ngIf="this.mode === this.SelectClassMode.TreeMulti || this.mode === this.SelectClassMode.TreeMulti"
+                  <button *ngIf="selectClass.mode === this.SelectClassMode.TreeMulti || selectClass.mode === this.SelectClassMode.TreeMulti"
                    (click)="onParentSelectAll(classIndex, false);" class="btn-link">全选</button>
               </div>
             </li>
@@ -64,7 +65,7 @@
             <div *ngIf="!selectMsgType" class="data-msg">
                 <div class="data-bar" *ngFor="let selectData of selectList;let selectDataIndex = index;">
                     <span  *ngFor="let patchData of selectData.path;let patchIndex = index;">
-                      {{patchData && patchData[nameKey]}}
+                      {{patchData && patchData[selectClass.nameKey]}}
                     </span>
                   <i (click)="clear(selectDataIndex)">×</i>
                 </div>

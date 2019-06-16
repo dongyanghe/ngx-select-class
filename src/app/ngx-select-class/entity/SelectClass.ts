@@ -24,19 +24,38 @@ export class SelectClass extends FormControlBase<Array<any>> {
   /**
    * 每一层级的信息
    */
-  classList: Array<Class>;
+  key: string;
+  classList: Array<Class> = [];
   /**
    * 待选数据列表
    */
-  treeDataList: Array<any>;
+  treeDataList: Array<any> = [];
   /**
    * 总的选择数据
    */
   requestDataList: (data: any, index: number) => Observable<any>;
-  idKey: string;
-  nameKey: string;
-  asyncGrade: boolean;
-  isAllIn: boolean;
+  
+  /**
+   * 模版表单的key
+   */
+
+  idKey = 'id';
+  /**
+   * 名称变量名
+   * 在set函数里@Input
+   */
+  nameKey = 'name';
+  /**
+   * 是否是异步分层获取数据(大数据量时使用，已查询数据会缓存在treeDataList)
+   * 在set函数里@Input
+   */
+  asyncGrade = false;
+  /**
+   * 全选时是否返回子孙级所有数据
+   * 默认否，将不返回,只在对应层级添加变量allIn = true
+   */
+  isAllIn = false;
+  placeholder = '--请选择--';
   /**
    * 选择模式
    * treeRadio:树形结构最后一级单选
@@ -44,30 +63,9 @@ export class SelectClass extends FormControlBase<Array<any>> {
    * levelRadio:平级结构单选
    * levelMulti:平级结构多选
    */
-  mode: string;
-  constructor(label: string, placeholder: string = '--请选择--', key: string, value: Array<any>, required: boolean = false,
-              readonly: boolean = false, disabled: boolean = false, validation: string = '', title?: string, order?: number,
-              classList: Array<any> = [],
-              treeDataList: Array<any> = null,
-              requestDataList: (data: any, index: number) => Observable<any> = null,
-              asyncGrade: boolean = false,
-              isAllIn: boolean = false,
-              mode: string = 'TreeRadio',
-              idKey: string = 'id',
-              nameKey: string = 'name') {
-    super('select-class', label, placeholder, key, value,
-          undefined, required, readonly, disabled, validation, undefined, undefined, title, order);
-    const self = this;
-    this.mode = mode;
-    this.idKey = idKey;
-    this.nameKey = nameKey;
-    this.asyncGrade = asyncGrade;
-    this.classList = classList;
-    this.treeDataList = treeDataList;
-    this.requestDataList = requestDataList;
-   /* this.observable = Observable.create(observer => {
-      this.observer = observer;
-    });*/
+  mode = 'TreeMulti';
+  constructor(label: string, key: string, value: Array<any> = []) {
+    super('select-class', label, key, value);
   }
   modalOnOpen(result) {
     window.console.info('SelectClass onOpen', result);

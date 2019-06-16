@@ -41,7 +41,7 @@ import {
 } from '@angular/common/http';
 
 import {
-  SelectClassMode, Class
+  SelectClass, SelectClassMode, Class
 } from './entity';
 @Component({
   selector: 'app-ngx-select-class',
@@ -98,41 +98,13 @@ implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
     path: []
   };
 
+  private _selectClass: SelectClass = new SelectClass('树形多选', 'treeSelectList');
   /**
    * 模版表单
    * 在set函数里@Input
    */
   private _formGroup: FormGroup;
-  /**
-   * 选择模式
-   * 在set函数里@Input
-   */
-  private _mode = SelectClassMode.TreeRadio;
-  /**
-   * 表单是否只读
-   * 在set函数里@Input
-   */
-  private _readonly: boolean = false;
-  /**
-   * 表单是否禁用
-   * 在set函数里@Input
-   */
-  private _disabled: boolean = false;
-  /**
-   * 样式类字符串
-   * 在set函数里@Input
-   */
-  private _class = '';
-  /**
-   * 主键变量名
-   * 在set函数里@Input
-   */
-  private _idKey = 'id';
-  /**
-   * 名称变量名
-   * 在set函数里@Input
-   */
-  private _nameKey = 'name';
+
   /**
    * 层级列表
    */
@@ -144,10 +116,6 @@ implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
 
   private globalClickCallbackFn: () => void;
   /**
-   * 模版表单的key
-   */
-  private _formControlKey: string | Array < number > ;
-  /**
    * 已选列表的语义化显示
    */
   private _selectName: string;
@@ -156,22 +124,11 @@ implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
    */
   private _showClassIndex = 0;
 
-  /**
-   * 是否是异步分层获取数据(大数据量时使用，已查询数据会缓存在treeDataList)
-   * 在set函数里@Input
-   */
-  private _asyncGrade: boolean = false;
-
-  /**
-   * 全选时是否返回子孙级所有数据
-   * 默认否，将不返回,只在对应层级添加变量allIn = true
-   */
-  private _isAllIn: boolean = false;
 
   /**
    * 是否正在执行requestTreeDataListForSelectList
    */
-  isRequestTreeDataListForSelectList: boolean = false;
+  private isRequestTreeDataListForSelectList: boolean = false;
 
   /**
    * 异步获取数据
@@ -194,112 +151,30 @@ implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
     // let self = this;
   }
 
-  get asyncGrade(): boolean {
-    return this._asyncGrade;
+
+  public get selectClass(): SelectClass {
+    return this._selectClass;
   }
 
   @Input()
-  set asyncGrade(value: boolean) {
-    this._asyncGrade = value;
-  }
-
-  get isAllIn(): boolean {
-    return this._isAllIn;
-  }
-
-  @Input()
-  set isAllIn(value: boolean) {
-    this._isAllIn = value;
-  }
-
-  get selectName(): string {
-    return this._selectName;
-  }
-
-  @Input()
-  set selectName(value: string) {
-    this._selectName = value;
+  public set selectClass(value: SelectClass) {
+    this._selectClass = value;
   }
 
   get showClassIndex(): number {
     return this._showClassIndex;
   }
 
-  @Input()
   set showClassIndex(value: number) {
     this._showClassIndex = value;
-  }
-
-  get readonly(): boolean {
-    return this._readonly;
-  }
-
-  @Input()
-  set readonly(value: boolean) {
-    this._readonly = value;
-  }
-
-  get disabled(): boolean {
-    return this._disabled;
-  }
-
-  @Input()
-  set disabled(value: boolean) {
-    this._disabled = value;
-  }
-
-  get class(): string {
-    return this._class;
-  }
-
-  @Input()
-  set class(value: string) {
-    this._class = value;
-  }
-
-  get formControlKey(): string | Array < number > {
-    return this._formControlKey;
-  }
-
-  @Input()
-  set formControlKey(value: string | Array < number > ) {
-    this._formControlKey = value;
   }
 
   get nowSelect(): any {
     return this._nowSelect;
   }
 
-  @Input()
   set nowSelect(value: any) {
     this._nowSelect = value;
-  }
-
-  get idKey(): string {
-    return this._idKey;
-  }
-
-  @Input()
-  set idKey(value: string) {
-    this._idKey = value;
-  }
-
-  get nameKey(): string {
-    return this._nameKey;
-  }
-
-  @Input()
-  set nameKey(value: string) {
-    this._nameKey = value;
-  }
-
-  get mode() {
-    return this._mode;
-  }
-
-  @Input()
-  set mode(value) {
-    this._mode = value;
   }
 
   /**
@@ -314,7 +189,7 @@ implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
     }
     for (let i = treeDataList.length - 1; i >= 0; i--) {
       const treeData = treeDataList[i];
-      if (treeDataId == treeData[this.idKey]) {
+      if (treeDataId == treeData[this.selectClass.idKey]) {
         return treeData;
       }
     }
@@ -331,7 +206,7 @@ implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
       return null;
     }
     for (let i = treeDataList.length - 1; i >= 0; i--) {
-      if (id == treeDataList[i][this.idKey]) {
+      if (id == treeDataList[i][this.selectClass.idKey]) {
         return treeDataList[i];
         // newSelectData.path.push(treeDataList[i]);
         // newSelectData = Object.assign(newSelectData, treeDataList[i]);
@@ -343,7 +218,7 @@ implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
         id,
         treeDataList[i].children
       );
-      if (treeData && id == treeData[this.idKey]) {
+      if (treeData && id == treeData[this.selectClass.idKey]) {
         return treeData;
       }
     }
@@ -366,11 +241,11 @@ implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
         );
       } else {
         targetTreeData = Object.assign({},
-          this.getTreeClassData(treeDataId, this.treeDataList)
+          this.getTreeClassData(treeDataId, this.selectClass.treeDataList)
         );
       }
     }
-    return targetTreeData[this.nameKey] || '  ——  ';
+    return targetTreeData[this.selectClass.nameKey] || '  ——  ';
   }
 
   /**
@@ -390,8 +265,8 @@ implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
       //  path存储了父级信息
       if (selectData.path && selectData.path.length) {
         for (const data of selectData.path) {
-          // idList.push(data[this.idKey]);
-          id = data[this.idKey];
+          // idList.push(data[this.selectClass.idKey]);
+          id = data[this.selectClass.idKey];
           //  空为第一级
           if (targetTreeData && targetTreeData.children) {
             targetTreeData = Object.assign({},
@@ -399,27 +274,27 @@ implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
             );
           } else {
             targetTreeData = Object.assign({},
-              this.getTreeClassData(id, this.treeDataList)
+              this.getTreeClassData(id, this.selectClass.treeDataList)
             );
           }
           //  @bug:这里不当为空
           if (targetTreeData) {
-            // if (!targetTreeData[this.nameKey]){
+            // if (!targetTreeData[this.selectClass.nameKey]){
             //   debugger;
             // }
-            data[this.nameKey] = targetTreeData[this.nameKey] || data[this.nameKey] || '  ——  ';
+            data[this.selectClass.nameKey] = targetTreeData[this.selectClass.nameKey] || data[this.selectClass.nameKey] || '  ——  ';
           } else {
-            data[this.nameKey] = data[this.nameKey] || '  ——  ';
+            data[this.selectClass.nameKey] = data[this.selectClass.nameKey] || '  ——  ';
           }
         }
-        if (!selectData[this.nameKey]) {
-          selectData[this.nameKey] =
-            selectData.path[selectData.path.length - 1][this.nameKey];
+        if (!selectData[this.selectClass.nameKey]) {
+          selectData[this.selectClass.nameKey] =
+            selectData.path[selectData.path.length - 1][this.selectClass.nameKey];
         }
       } else {
         selectData.path = [];
         //  @todo:没有父级信息则逐级遍历把父级信息也取出
-        // selectData = this.getTreeClassDataForAll(Object.assign({}, selectData), this.treeDataList);
+        // selectData = this.getTreeClassDataForAll(Object.assign({}, selectData), this.selectClass.treeDataList);
       }
     } //  -end for (let selectData of this._selectList || [])
     this.synchroSelectList(this.selectList);
@@ -455,14 +330,18 @@ implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
    * @memberof NgxSelectClassComponent
    */
   requestTreeDataListForSelectList() {
+    // window.console.trace();
+    if (!this.selectClass.requestDataList) {
+      return;
+    }
     const self = this;
     //  如果是分级加载需传层级
-    if (this.asyncGrade) {
+    if (this.selectClass.asyncGrade) {
       this.isRequestTreeDataListForSelectList = true;
       let treeDataList = [];
-      // const test = self.requestDataList({}, index);
+      // const test = self.selectClass.requestDataList({}, index);
       //  查询第一级待选数据
-      self.requestDataList({}, 0).subscribe(option => {
+      self.selectClass.requestDataList({}, 0).subscribe(option => {
         treeDataList = option;
         // 如果有已选数据则把已选数据所对应层级都异步查询出来
         if (!self.isEmptyProperty(self.selectList)) {
@@ -471,7 +350,7 @@ implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
           ) {
             let index = 0;
             //  给显示在input上的selectName赋值
-            switch (self.mode) {
+            switch (this.selectClass.mode) {
               case SelectClassMode.TreeRadio:
               case SelectClassMode.TreeMulti:
                 if (
@@ -486,7 +365,7 @@ implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
                 // 递归异步获取下级
                 const requestPathDataList = () => {
                   eachId =
-                    self.selectList[selectListKey].path[index][self.idKey];
+                    self.selectList[selectListKey].path[index][this.selectClass.idKey];
                   const selectStatus =
                     self.selectList[selectListKey].path[index].selectStatus;
                   // 获取对应的层级
@@ -503,13 +382,13 @@ implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
                   nowTreeData.selectStatus = selectStatus;
                   eachTreeData = Object.assign({}, nowTreeData);
                   self
-                    .requestDataList(eachTreeData, ++index)
+                    .selectClass.requestDataList(eachTreeData, ++index)
                     .subscribe(childOption => {
                       nowTreeData.children = Object.assign([], childOption);
                       eachTreeData.children = childOption;
                       if (self.selectList[selectListKey].path.length == index) {
-                        self.treeDataList = treeDataList;
-                        self.classList[0].dataList = self.treeDataList;
+                        this.selectClass.treeDataList = treeDataList;
+                        self.classList[0].dataList = this.selectClass.treeDataList;
                         if (selectListKey == self.selectList.length - 1) {
                           this.isRequestTreeDataListForSelectList = false;
                         }
@@ -528,13 +407,13 @@ implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
         } else {
           this.isRequestTreeDataListForSelectList = false;
         }
-        self.treeDataList = treeDataList;
-        self.classList[0].dataList = self.treeDataList;
+        this.selectClass.treeDataList = treeDataList;
+        self.classList[0].dataList = this.selectClass.treeDataList;
       });
     } else {
-      this.requestDataList({}, 1).subscribe(option => {
-        self.treeDataList = option;
-        self.classList[0].dataList = self.treeDataList;
+      this.selectClass.requestDataList({}, 1).subscribe(option => {
+        this.selectClass.treeDataList = option;
+        self.classList[0].dataList = this.selectClass.treeDataList;
       });
     }
   }
@@ -554,9 +433,9 @@ implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
         switch (propName) {
           case 'treeDataList':
             //  如果没有requestDataList则代表是treeDataList传入待选数据
-            if (!self.requestDataList) {
+            if (!this.selectClass.requestDataList) {
               //  为第一层数据赋值
-              self.classList[0].dataList = self.treeDataList;
+              self.classList[0].dataList = this.selectClass.treeDataList;
             }
             break;
           case 'selectList':
@@ -567,17 +446,17 @@ implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
           case 'formGroup':
             if (this.formGroup) {
               const formControl: FormControl = this.formGroup.get(
-                this.formControlKey
+                this.selectClass.key
               ) as FormControl;
               this.synchroSelectList(formControl.value, true);
               formControl.valueChanges.subscribe(value => {
-                console.log(this.formControlKey + ' valueChanges:', value);
+                console.log(this.selectClass.key + ' valueChanges:', value);
                 this.synchroSelectList(value, true);
               });
             }
             break;
           case 'requestDataList':
-            if (!self.requestDataList) {
+            if (!this.selectClass.requestDataList) {
               return;
             }
             this.requestTreeDataListForSelectList();
@@ -598,10 +477,10 @@ implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
    */
   ngOnInit() {
     const self = this;
-    // if (!this.treeDataList && !this.requestDataList) throw new Error('数据源 `treeDataList` 或 `requestDataList` 至少必须有一个');
+    // if (!this.selectClass.treeDataList && !this.selectClass.requestDataList) throw new Error('数据源 `treeDataList` 或 `requestDataList` 至少必须有一个');
     try {
       // if (self.formGroup) {
-      //   let formControl: FormControl = this.formGroup.get(this.formControlKey) as FormControl;
+      //   let formControl: FormControl = this.formGroup.get(this.selectClass.key) as FormControl;
       //   如果formControl有值则优先使用它的值并同步到_selectList
       //   if (formControl.value && formControl.value.length) {
       //     self.synchroSelectList (formControl.value, true);
@@ -614,7 +493,7 @@ implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
       } else {
         if (self.formGroup) {
           const formControl: FormControl = this.formGroup.get(
-            this.formControlKey
+            this.selectClass.key
           ) as FormControl;
           if (formControl.value && formControl.value.length) {
             self.synchroSelectList(formControl.value, true);
@@ -628,7 +507,7 @@ implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
       this.elementRef.nativeElement,
       'click',
       (event: any) => {
-        if (self.readonly || self.disabled) {
+        if (this.selectClass.idKey || this.selectClass.disabled) {
           return;
         }
         window.console.log('SelectClassComponent：' + event);
@@ -654,7 +533,7 @@ implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
   }
 
   private dataListTrackByFn(index: number, data: any): number {
-    return data ? null : data[this.idKey];
+    return data ? null : data[this.selectClass.idKey];
   }
 
   /**getTreeClassDataForAll
@@ -675,12 +554,12 @@ implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
     if (!isFormGroup && this.formGroup) {
       // window.console.trace();
       const formControl: FormControl = this.formGroup.get(
-        this.formControlKey
+        this.selectClass.key
       ) as FormControl;
       formControl.setValue(value);
     }
     //  给显示在input上的selectName赋值
-    switch (self.mode) {
+    switch (this.selectClass.mode) {
       case SelectClassMode.TreeRadio:
       case SelectClassMode.TreeMulti:
       // debugger
@@ -689,8 +568,8 @@ implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
           const selectData = self.selectList[0];
           //  从treeClassDataList向selectList同步全选状态
           const treeData = this.getTreeClassDataForAll(
-            selectData[this.idKey],
-            this.treeDataList
+            selectData[this.selectClass.idKey],
+            this.selectClass.treeDataList
           );
           //  @wait: treeData为空表示没这数据，那selectData也应该不存在，说明外部数据有误，需处理
           selectData.selectStatus = treeData ?
@@ -698,17 +577,17 @@ implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
             selectData.selectStatus;
           for (const pathData of selectData.path) {
             const pathTreeData = this.getTreeClassDataForAll(
-              pathData[this.idKey],
-              this.treeDataList
+              pathData[this.selectClass.idKey],
+              this.selectClass.treeDataList
             );
             pathData.selectStatus = pathTreeData ?
               pathTreeData.selectStatus :
               pathData.selectStatus;
             if (pathData.selectStatus) {
-              self._selectName += (pathData[self.nameKey] || '——') + '全部  ';
+              self._selectName += (pathData[this.selectClass.nameKey] || '——') + '全部  ';
               break;
             }
-            self._selectName += (pathData[self.nameKey] || '——') + '  ';
+            self._selectName += (pathData[this.selectClass.nameKey] || '——') + '  ';
           }
         } else {
           const classIdList = [];
@@ -716,8 +595,8 @@ implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
             if (self.selectList.hasOwnProperty(key)) {
               const selectData = self.selectList[key];
               const treeData = this.getTreeClassDataForAll(
-                selectData[this.idKey],
-                this.treeDataList
+                selectData[this.selectClass.idKey],
+                this.selectClass.treeDataList
               );
               selectData.selectStatus = treeData ?
                 treeData.selectStatus :
@@ -728,8 +607,8 @@ implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
                 if (selectData.path.hasOwnProperty(pathKey)) {
                   const pathData = selectData.path[pathKey];
                   const pathTreeData = this.getTreeClassDataForAll(
-                    pathData[this.idKey],
-                    this.treeDataList
+                    pathData[this.selectClass.idKey],
+                    this.selectClass.treeDataList
                   );
                   pathData.selectStatus = pathTreeData ?
                     pathTreeData.selectStatus :
@@ -752,7 +631,7 @@ implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
                       }
                       classIdList[pathKey].push(pathData.id);
                       self._selectName +=
-                        (pathData[self.nameKey] || '——') + '全部  ';
+                        (pathData[this.selectClass.nameKey] || '——') + '全部  ';
                     }
                     break;
                   } else {
@@ -768,14 +647,14 @@ implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
                         end = end + 1;
                         self._selectName = self._selectName.slice(0, end);
                       }
-                      self._selectName += pathData[self.nameKey] || '——';
+                      self._selectName += pathData[this.selectClass.nameKey] || '——';
                     } else {
-                      self._selectName += pathData[self.nameKey] || '——';
+                      self._selectName += pathData[this.selectClass.nameKey] || '——';
                     }
                   }
                 }
               } //  -end for (const pathKey in selectData.path)
-              // self._selectName += selectData[self.nameKey] || '——';
+              // self._selectName += selectData[this.selectClass.nameKey] || '——';
             }
           }
         }
@@ -825,8 +704,8 @@ implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
     for (const selectData of this.selectList || []) {
       if (
         selectData.path[classIndex] &&
-        !this.isEmpty(selectData.path[classIndex][this.idKey]) &&
-        selectData.path[classIndex][this.idKey] == data[this.idKey]
+        !this.isEmpty(selectData.path[classIndex][this.selectClass.idKey]) &&
+        selectData.path[classIndex][this.selectClass.idKey] == data[this.selectClass.idKey]
       ) {
         return 1;
       }
@@ -865,7 +744,7 @@ implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
           const select = this.selectList[k];
           for (let i = changeData.children.length - 1; i >= 0; i--) {
             const value = changeData.children[i];
-            if (value[this.idKey] === select[this.idKey]) {
+            if (value[this.selectClass.idKey] === select[this.selectClass.idKey]) {
               ++number;
               break;
             }
@@ -918,11 +797,11 @@ implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
     if (!self.nowSelect.path[classIndex]) {
       return false;
     }
-    const nowSelectId = self.nowSelect.path[classIndex][self.idKey];
+    const nowSelectId = self.nowSelect.path[classIndex][this.selectClass.idKey];
     if (!nowSelectId) {
       return false;
     }
-    return nowSelectId == data[self.idKey];
+    return nowSelectId == data[this.selectClass.idKey];
   }
 
   /**
@@ -933,8 +812,8 @@ implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
     for (const selectData of self.selectList || []) {
       if (
         selectData.path[classIndex] &&
-        !self.isEmpty(selectData.path[classIndex][self.idKey]) &&
-        selectData.path[classIndex][self.idKey] == data[self.idKey]
+        !self.isEmpty(selectData.path[classIndex][this.selectClass.idKey]) &&
+        selectData.path[classIndex][this.selectClass.idKey] == data[this.selectClass.idKey]
       ) {
         return true;
       }
@@ -964,8 +843,8 @@ implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
       while (++classIndex < this.classList.length) {
         const parentData = deleteData.path[classIndex];
         const treeClassData = this.getTreeClassDataForAll(
-          parentData[this.idKey],
-          this.treeDataList
+          parentData[this.selectClass.idKey],
+          this.selectClass.treeDataList
         );
         if (treeClassData) {
           treeClassData.selectStatus = false;
@@ -991,8 +870,8 @@ implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
     } else {
       for (const classData of this.classList[classIndex - 1].dataList) {
         if (
-          this.nowSelect.path[classIndex - 1][this.idKey] ==
-          classData[this.idKey]
+          this.nowSelect.path[classIndex - 1][this.selectClass.idKey] ==
+          classData[this.selectClass.idKey]
         ) {
           classData.selectStatus = selectStatus;
           this.onChildenSelectAll(classData, classIndex - 1);
@@ -1038,7 +917,7 @@ implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
         //  path下标是按照classIndex的顺序父级——>子集排列的
         //  如果已选元素path对classIndex应层级id相等就删除
         const value = self.selectList[i];
-        if (value.path[classIndex][self.idKey] == data[self.idKey]) {
+        if (value.path[classIndex][this.selectClass.idKey] == data[this.selectClass.idKey]) {
           self.selectList.splice(i, 1);
         }
       }
@@ -1049,7 +928,7 @@ implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
     } else {
       data.selectStatus = true;
       //  未全选则执行全选
-      switch (self.mode) {
+      switch (this.selectClass.mode) {
         case SelectClassMode.TreeMulti:
           //  @wait：是否可以通过标记父级下标来减少循环？
           const checkTreeData = (treeData: any, treeDataClassIndex: number) => {
@@ -1078,8 +957,8 @@ implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
                   for (let i = self.selectList.length - 1; i >= 0; i--) {
                     // if (!nowSelect.path[treeDataClassIndex - 1]) debugger;
                     if (
-                      self.selectList[i][self.idKey] ==
-                      nowSelect.path[treeDataClassIndex - 1][self.idKey]
+                      self.selectList[i][this.selectClass.idKey] ==
+                      nowSelect.path[treeDataClassIndex - 1][this.selectClass.idKey]
                     ) {
                       self.selectList[i] = JSON.parse(
                         JSON.stringify(nowSelect)
@@ -1098,8 +977,8 @@ implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
               //  已选择则更新数据——selectStatus
               for (const selectData of self.selectList || []) {
                 if (
-                  selectData.path[treeDataClassIndex][self.idKey] ==
-                  nowSelect[self.idKey]
+                  selectData.path[treeDataClassIndex][this.selectClass.idKey] ==
+                  nowSelect[this.selectClass.idKey]
                 ) {
                   selectData.path[treeDataClassIndex] = JSON.parse(
                     JSON.stringify(nowSelect)
@@ -1127,14 +1006,14 @@ implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
             }
           };
           //  如果要返回所有子孙级数据则进入遍历查找赋值（@careful:数据量太大或者是异步请求的会导致性能问题）
-          if (this.isAllIn) {
+          if (this.selectClass.isAllIn) {
             //  是异步获取且还有子级且未缓存
             if (
-              self.asyncGrade &&
+              this.selectClass.asyncGrade &&
               self.classList[classIndex + 1] &&
               !data.children
             ) {
-              this.requestDataList(data, classIndex + 1).subscribe(option => {
+              this.selectClass.requestDataList(data, classIndex + 1).subscribe(option => {
                 data.children = option;
                 checkTreeData(data, classIndex);
               });
@@ -1168,7 +1047,7 @@ implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
       return;
     }
     //  获取下一级待选数据列表
-    switch (self.mode) {
+    switch (this.selectClass.mode) {
       case SelectClassMode.TreeRadio:
       case SelectClassMode.TreeMulti:
         const checkTreeData = () => {
@@ -1211,7 +1090,7 @@ implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
             //  selectList是空或者单选模式下一次只能选择一个，可以直接赋值覆盖
             if (
               self.isEmptyProperty(self.selectList) ||
-              self.mode == SelectClassMode.TreeRadio
+              this.selectClass.mode == SelectClassMode.TreeRadio
             ) {
               self.selectList = [JSON.parse(JSON.stringify(self.nowSelect))];
             } else {
@@ -1226,8 +1105,8 @@ implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
                 let isSelectIng = false;
                 for (let i = self.selectList.length - 1; i >= 0; i--) {
                   if (
-                    self.selectList[i][self.idKey] ==
-                    self.nowSelect.path[classIndex - 1][self.idKey]
+                    self.selectList[i][this.selectClass.idKey] ==
+                    self.nowSelect.path[classIndex - 1][this.selectClass.idKey]
                   ) {
                     self.selectList[i] = JSON.parse(
                       JSON.stringify(self.nowSelect)
@@ -1248,11 +1127,11 @@ implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
         };
         //  是异步获取且还有子级且未缓存
         if (
-          self.asyncGrade &&
+          this.selectClass.asyncGrade &&
           self.classList[classIndex + 1] &&
           !data.children
         ) {
-          this.requestDataList(data, classIndex + 1).subscribe(option => {
+          this.selectClass.requestDataList(data, classIndex + 1).subscribe(option => {
             data.children = option;
             checkTreeData();
           });
@@ -1279,7 +1158,7 @@ implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
     const self = this;
     self._viewContainerRef.clear();
     // if (self.formGroup) {
-    //   let formControl: FormControl = this.formGroup.get(this.formControlKey) as FormControl;
+    //   let formControl: FormControl = this.formGroup.get(this.selectClass.key) as FormControl;
     //   if (formControl.value && formControl.value.length) {
     //     self.synchroSelectList(formControl.value, true);
     //   }

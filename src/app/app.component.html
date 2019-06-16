@@ -19,11 +19,7 @@
 <h3>{{treeMulti.label}}【treeList】: </h3>
 <hr/>
 <!-- 一下属性有默认值，不用每个都传 -->
-<app-ngx-select-class style="width: 400px;" [formControlKey]="treeMulti.key" [mode]="treeMulti.mode"
-  [idKey]="treeMulti.idKey" [nameKey]="treeMulti.nameKey" [asyncGrade]="treeMulti.asyncGrade"
-  [isAllIn]="treeMulti.isAllIn" [(ngModel)]="treeSelectList" [classList]="treeMulti.classList"
-  [treeDataList]="treeMulti.treeDataList" [requestDataList]="treeMulti.requestDataList" 
-  [readonly]="treeMulti.readonly" [disabled]="treeMulti.disabled">
+<app-ngx-select-class style="width: 400px;" [selectList]="treeMulti" [(ngModel)]="treeSelectList">
 </app-ngx-select-class>
 <h2>Here are some links to help you start Angular: </h2>
 <ul>
